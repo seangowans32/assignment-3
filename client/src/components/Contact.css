@@ -7,6 +7,10 @@
   justify-content: center;
 }
 
+.form-container h2 {
+  text-align: center;
+}
+
 .form-container .form {
   flex: 0 0 100%;
 }

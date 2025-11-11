@@ -81,13 +81,76 @@
 
 
 
+// import Project from "../models/project.js";
+
+// // CREATE
+// export const createProject = async (req, res) => {
+//   try {
+//     if(req.user.role !== "admin") {
+//         return res.status(403).json({ message: "Access denied: Admins only" });
+//     }
+
+//     const project = await Project.create(req.body);
+//     res.status(201).json(project);
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).json({ message: "Server error" });
+//   }
+// };
+
+// // READ ALL
+// export const getProjects = async (req, res) => {
+//   try {
+//     if(req.user.role !== "admin") {
+//         return res.status(403).json({ message: "Access denied: Admins only" });
+//     }
+
+//     const projects = await Project.find().sort({ createdAt: -1 });
+//     res.json(projects);
+//   } catch (err) {
+//     res.status(500).json({ message: "Server error" });
+//   }
+// };
+
+// // UPDATE
+// export const updateProject = async (req, res) => {
+//   try {
+//     if(req.user.role !== "admin") {
+//         return res.status(403).json({ message: "Access denied: Admins only" });
+//     }
+
+//     const updated = await Project.findByIdAndUpdate(req.params.id, req.body, { new: true });
+//     res.json(updated);
+//   } catch (err) {
+//     res.status(500).json({ message: "Server error" });
+//   }
+// };
+
+// // DELETE
+// export const deleteProject = async (req, res) => {
+//   try {
+//     await Project.findByIdAndDelete(req.params.id);
+//     res.json({ message: "Project deleted" });
+//   } catch (err) {
+//     res.status(500).json({ message: "Server error" });
+//   }
+// };
+
+
+
+
+
+
+
+
+
 import Project from "../models/project.js";
 
-// CREATE
+// CREATE — Admin only
 export const createProject = async (req, res) => {
   try {
-    if(req.user.role !== "admin") {
-        return res.status(403).json({ message: "Access denied: Admins only" });
+    if (!req.user || req.user.role !== "admin") {
+      return res.status(403).json({ message: "Access denied: Admins only" });
     }
 
     const project = await Project.create(req.body);
@@ -98,13 +161,9 @@ export const createProject = async (req, res) => {
   }
 };
 
-// READ ALL
+// READ ALL — Public (anyone can see)
 export const getProjects = async (req, res) => {
   try {
-    if(req.user.role !== "admin") {
-        return res.status(403).json({ message: "Access denied: Admins only" });
-    }
-
     const projects = await Project.find().sort({ createdAt: -1 });
     res.json(projects);
   } catch (err) {
@@ -112,25 +171,33 @@ export const getProjects = async (req, res) => {
   }
 };
 
-// UPDATE
+// UPDATE — Admin only
 export const updateProject = async (req, res) => {
   try {
-    if(req.user.role !== "admin") {
-        return res.status(403).json({ message: "Access denied: Admins only" });
+    if (!req.user || req.user.role !== "admin") {
+      return res.status(403).json({ message: "Access denied: Admins only" });
     }
 
     const updated = await Project.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    if (!updated) return res.status(404).json({ message: "Project not found" });
+
     res.json(updated);
   } catch (err) {
     res.status(500).json({ message: "Server error" });
   }
 };
 
-// DELETE
+// DELETE — Admin only
 export const deleteProject = async (req, res) => {
   try {
-    await Project.findByIdAndDelete(req.params.id);
-    res.json({ message: "Project deleted" });
+    if (!req.user || req.user.role !== "admin") {
+      return res.status(403).json({ message: "Access denied: Admins only" });
+    }
+
+    const deleted = await Project.findByIdAndDelete(req.params.id);
+    if (!deleted) return res.status(404).json({ message: "Project not found" });
+
+    res.json({ message: "Project deleted successfully" });
   } catch (err) {
     res.status(500).json({ message: "Server error" });
   }

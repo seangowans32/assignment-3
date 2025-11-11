@@ -2,6 +2,7 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { useEffect, useState } from 'react';
 import './Projects.css';
+import './Contact.css';
 
 import bannerImg from '../assets/img-3.jpg';
 import samadhiImage from '../assets/samadhi.png';
@@ -25,6 +26,8 @@ import Footer from './Footer.jsx';
 // import Footer from './Footer.jsx';
 
 import { useAuth } from '../auth/AuthContext';
+
+
 
 
 
@@ -54,16 +57,15 @@ export default function Projects() {
 
 
 
-
-
   const { user, token } = useAuth(); // ✅ from AuthContext
   const [projects, setProjects] = useState([]);
+
   const [form, setForm] = useState({
     title: "",
-    description: "",
-    link: "",
-    imageUrl: ""
+    link: ""
   });
+
+
   const [message, setMessage] = useState("");
 
   useEffect(() => {
@@ -92,12 +94,13 @@ export default function Projects() {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(form),
+        body: JSON.stringify({ title: form.title, link: form.link }),
       });
+  
       const data = await res.json();
       if (res.ok) {
         setMessage("✅ Project added successfully!");
-        setForm({ title: "", description: "", link: "", imageUrl: "" });
+        setForm({ title: "", link: "" });
         fetchProjects();
       } else {
         setMessage(`❌ ${data.message}`);
@@ -106,6 +109,7 @@ export default function Projects() {
       setMessage("⚠️ Server error");
     }
   };
+  
 
 
 
@@ -118,43 +122,37 @@ export default function Projects() {
         </div>
       </section>
 
-
-
-
-
-      {/* ✅ ADMIN-ONLY FORM */}
       {user && user.role === "admin" && (
-        <section className="admin-add-project container">
-          <h2>Add New Project</h2>
-          <form className="flex column gap-10" onSubmit={handleSubmit}>
-            <input
-              name="title"
-              placeholder="Project Title"
-              value={form.title}
-              onChange={handleChange}
-              required
-            />
-            <input
-              name="link"
-              placeholder="Project Link (optional)"
-              value={form.link}
-              onChange={handleChange}
-            />
-            <input
-              name="imageUrl"
-              placeholder="Image URL (optional)"
-              value={form.imageUrl}
-              onChange={handleChange}
-            />
-            <textarea
-              name="description"
-              placeholder="Project Description"
-              value={form.description}
-              onChange={handleChange}
-            />
-            <button className="button" type="submit">Add Project</button>
-          </form>
-          {message && <p className="message">{message}</p>}
+        <section className="contact form-container">
+          <div className="container container-small">
+            <h2>Add New Project {user.name}</h2>
+
+            <form className="form flex column gap-10" onSubmit={handleSubmit}>
+              <div className="form-group flex full-width">
+                <input
+                  name="title"
+                  placeholder="Project Title"
+                  value={form.title}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+
+              <div className="form-group flex full-width">
+                <input
+                  name="link"
+                  placeholder="Project Link"
+                  value={form.link}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+
+              <button className="button" type="submit">Add Project</button>
+            </form>
+
+            {message && <p className="message">{message}</p>}
+          </div>
         </section>
       )}
 
@@ -163,7 +161,7 @@ export default function Projects() {
 
 
 
-<section className="featured-projects">
+      {/* <section className="featured-projects">
         <div className="container">
           <h2 data-aos="zoom-in" data-aos-duration="1000">Featured Projects</h2>
           <div className="flex gap-20">
@@ -202,13 +200,13 @@ export default function Projects() {
             )}
           </div>
         </div>
-      </section>
+      </section> */}
 
 
 
 
 
-      {/* <section className="featured-projects">
+      <section className="featured-projects">
         <div className="container">
           <h2 data-aos="zoom-in" data-aos-duration="1000">Featured Projects</h2>
 
@@ -316,7 +314,7 @@ export default function Projects() {
             </div>
           </div>
         </div>
-      </section> */}
+      </section>
 
       <section className="sites">
         <div className="container">
@@ -413,6 +411,29 @@ export default function Projects() {
             {/* <li><a href="https://www.mibowork.com.au/" target="_blank" rel="noopener">wickedstore</a></li> */}
 
             <li><a href="https://thebaratie.infinityfreeapp.com/" target="_blank" rel="noopener">The Baratie</a></li>
+
+            {/* {projects.map((p) => (
+              <li key={p._id}>
+                {p.link ? (
+                  <a href={p.link} target="_blank" rel="noopener noreferrer">
+                    {p.title || "Untitled Project"}
+                  </a>
+                ) : (
+                  <span>{p.title || "Untitled Project"}</span>
+                )}
+              </li>
+            ))} */}
+
+
+            {projects.map((p) => (
+              <li key={p._id}>
+                <a href={p.link} target="_blank" rel="noopener noreferrer">
+                  {p.title}
+                </a>
+              </li>
+            ))}
+
+
           </ul>
         </div>
       </section>
