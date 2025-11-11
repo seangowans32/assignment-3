@@ -28,6 +28,8 @@ export const signup = async (req, res) => {
 // Signin
 export const signin = async (req, res) => {
   try {
+    console.log("🔐 Signin attempt:", req.body); // Log input
+
     const { email, password } = req.body;
     const user = await User.findOne({ email });
     if (!user) return res.status(401).json({ message: 'Invalid credentials' });

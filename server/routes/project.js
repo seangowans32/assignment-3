@@ -30,15 +30,35 @@
 
 
 
-import express from "express";
-import { createProject, getProjects, updateProject, deleteProject } from "../controllers/project.js";
-import authMiddleware from "../middlewares/auth.js";
+// import express from "express";
+// import { createProject, getProjects, updateProject, deleteProject } from "../controllers/project.js";
+// import authMiddleware from "../middlewares/auth.js";
+
+// const router = express.Router();
+
+// router.get("/", getProjects); // public
+// router.post("/", authMiddleware, createProject); // protected (admin)
+// router.put("/:id", authMiddleware, updateProject);
+// router.delete("/:id", authMiddleware, deleteProject);
+
+// export default router;
+
+
+
+
+
+
+import express from 'express';
+import { createProject, getProjects, updateProject, deleteProject } from '../controllers/project.js';
+// import { protect, adminOnly } from '../middlewares/auth.js';
+
+import { protect, adminOnly } from '../middlewares/auth.js';
 
 const router = express.Router();
 
-router.get("/", getProjects); // public
-router.post("/", authMiddleware, createProject); // protected (admin)
-router.put("/:id", authMiddleware, updateProject);
-router.delete("/:id", authMiddleware, deleteProject);
+router.get('/', getProjects); // public
+router.post('/', protect, adminOnly, createProject);
+router.put('/:id', protect, adminOnly, updateProject);
+router.delete('/:id', protect, adminOnly, deleteProject);
 
 export default router;

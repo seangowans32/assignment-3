@@ -8,17 +8,18 @@ import {
     loginUser
 } from '../controllers/user.js'
 
-import authMiddleware from '../middlewares/auth.js';
+// import authMiddleware from '../middlewares/auth.js';
+import { protect, adminOnly } from '../middlewares/auth.js';
 
 // Router /users
 const router = express.Router();
 
 // HTTP Verbs for RESTful APIs GET, POST, PUT, DELETE
-router.get('/', authMiddleware, getAllUsers);
-router.get('/:id', authMiddleware, getUserById);
+router.get('/', protect, adminOnly, getAllUsers);
+router.get('/:id', protect, adminOnly, getUserById);
 router.post('/', createUser);
-router.put('/:id', authMiddleware, updateUser);
-router.delete('/:id', authMiddleware, deleteUser);
+router.put('/:id', protect, adminOnly, updateUser);
+router.delete('/:id', protect, adminOnly, deleteUser);
 router.post('/login', loginUser)
 
 export default router;
