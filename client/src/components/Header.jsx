@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom';
+import { useAuth } from "../auth/AuthContext";
 
 export default function Header() {
+  const { user, logout } = useAuth();
   return(
     <>
       <header className="header">
@@ -13,6 +15,17 @@ export default function Header() {
             <Link to="/projects">Projects</Link>
             <Link to="/education">Education</Link>
             <Link to="/contact">Contact</Link>
+
+            {user ? (
+              <div className="flex gap-20">
+                <button className="button" onClick={logout}>Log Out</button>
+              </div>
+            ) : (
+              <div className="flex gap-20">
+                <Link to="/signin">Sign In</Link>
+                <Link to="/signup">Sign Up</Link>
+              </div>
+            )}
           </nav>
         </div>
       </header>

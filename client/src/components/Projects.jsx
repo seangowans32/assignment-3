@@ -1,7 +1,8 @@
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import './Projects.css';
+
 import bannerImg from '../assets/img-3.jpg';
 import samadhiImage from '../assets/samadhi.png';
 import keystoneImage from '../assets/keystone.png';
@@ -11,11 +12,102 @@ import zero9Video from '../assets/zero9.mp4';
 import miboImage from '../assets/mibo.png';
 import Footer from './Footer.jsx';
 
+
+
+
+
+
+// import AOS from 'aos';
+// import 'aos/dist/aos.css';
+// import { useEffect, useState } from 'react';
+// import './Projects.css';
+// import bannerImg from '../assets/img-3.jpg';
+// import Footer from './Footer.jsx';
+
+import { useAuth } from '../auth/AuthContext';
+
+
+
 export default function Projects() {
-  // AOS Animations
+  // const [projects, setProjects] = useState([]);
+  // const [message, setMessage] = useState("");
+
+  // // AOS Animations
+  // useEffect(() => {
+  //   AOS.init();
+
+  //   fetchProjects();
+
+  // }, []);
+
+  // const fetchProjects = async () => {
+  //   try {
+  //     const res = await fetch("http://localhost:4000/api/projects");
+  //     const data = await res.json();
+  //     setProjects(data);
+  //   } catch (err) {
+  //     setMessage("Error loading projects");
+  //   }
+  // };
+
+
+
+
+
+
+
+  const { user, token } = useAuth(); // ✅ from AuthContext
+  const [projects, setProjects] = useState([]);
+  const [form, setForm] = useState({
+    title: "",
+    description: "",
+    link: "",
+    imageUrl: ""
+  });
+  const [message, setMessage] = useState("");
+
   useEffect(() => {
     AOS.init();
+    fetchProjects();
   }, []);
+
+  const fetchProjects = async () => {
+    try {
+      const res = await fetch("http://localhost:4000/api/projects");
+      const data = await res.json();
+      setProjects(data);
+    } catch (err) {
+      setMessage("⚠️ Error loading projects");
+    }
+  };
+
+  const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await fetch("http://localhost:4000/api/projects", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(form),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setMessage("✅ Project added successfully!");
+        setForm({ title: "", description: "", link: "", imageUrl: "" });
+        fetchProjects();
+      } else {
+        setMessage(`❌ ${data.message}`);
+      }
+    } catch (err) {
+      setMessage("⚠️ Server error");
+    }
+  };
+
+
 
   return(
     <>
@@ -26,9 +118,101 @@ export default function Projects() {
         </div>
       </section>
 
-      <section className="featured-projects">
+
+
+
+
+      {/* ✅ ADMIN-ONLY FORM */}
+      {user && user.role === "admin" && (
+        <section className="admin-add-project container">
+          <h2>Add New Project</h2>
+          <form className="flex column gap-10" onSubmit={handleSubmit}>
+            <input
+              name="title"
+              placeholder="Project Title"
+              value={form.title}
+              onChange={handleChange}
+              required
+            />
+            <input
+              name="link"
+              placeholder="Project Link (optional)"
+              value={form.link}
+              onChange={handleChange}
+            />
+            <input
+              name="imageUrl"
+              placeholder="Image URL (optional)"
+              value={form.imageUrl}
+              onChange={handleChange}
+            />
+            <textarea
+              name="description"
+              placeholder="Project Description"
+              value={form.description}
+              onChange={handleChange}
+            />
+            <button className="button" type="submit">Add Project</button>
+          </form>
+          {message && <p className="message">{message}</p>}
+        </section>
+      )}
+
+
+
+
+
+
+<section className="featured-projects">
         <div className="container">
           <h2 data-aos="zoom-in" data-aos-duration="1000">Featured Projects</h2>
+          <div className="flex gap-20">
+            {projects.length > 0 ? (
+              projects.map((p, i) => (
+                <div
+                  key={p._id || i}
+                  className="project-box"
+                  data-aos="zoom-in"
+                  data-aos-duration="1000"
+                  data-aos-delay={i * 100}
+                >
+                  <div className="img-container">
+                    {p.imageUrl ? (
+                      <img src={p.imageUrl} alt={p.title} />
+                    ) : (
+                      <img src={bannerImg} alt={p.title} />
+                    )}
+                  </div>
+                  <ul className="flex gap-10">
+                    <li>React</li>
+                    <li>Node</li>
+                    <li>Express</li>
+                    <li>MongoDB</li>
+                  </ul>
+                  <p>{p.description}</p>
+                  {p.link && (
+                    <a className="button" href={p.link} target="_blank" rel="noopener">
+                      Visit Site
+                    </a>
+                  )}
+                </div>
+              ))
+            ) : (
+              <p>No projects yet.</p>
+            )}
+          </div>
+        </div>
+      </section>
+
+
+
+
+
+      {/* <section className="featured-projects">
+        <div className="container">
+          <h2 data-aos="zoom-in" data-aos-duration="1000">Featured Projects</h2>
+
+          {message && <p className="message">{message}</p>}
 
           <div className="flex gap-20">
             <div className="project-box" data-aos="zoom-in" data-aos-duration="1000" data-aos-delay="100">
@@ -132,7 +316,7 @@ export default function Projects() {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
 
       <section className="sites">
         <div className="container">

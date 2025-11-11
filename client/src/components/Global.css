@@ -92,6 +92,10 @@ body {
   margin: 0 auto;
 }
 
+.container.container-small {
+  width: 600px;
+}
+
 .flex {
   display: flex;
   flex-wrap: wrap;

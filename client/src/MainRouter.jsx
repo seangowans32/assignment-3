@@ -6,6 +6,8 @@ import Contact from './components/Contact.jsx';
 import Education from './components/Education.jsx';
 import Services from './components/Services.jsx';
 import Projects from './components/Projects.jsx';
+import SignUp from './components/SignUp.jsx';
+import SignIn from './components/SignIn.jsx';
 
 const MainRouter = () => {
   return (
@@ -18,6 +20,8 @@ const MainRouter = () => {
         <Route path="/education" element={<Education />} />
         <Route path="/services" element={<Services />} />
         <Route path="/projects" element={<Projects />} />
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="/signin" element={<SignIn />} />
       </Routes>
     </>
   )

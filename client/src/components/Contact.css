@@ -3,6 +3,19 @@
   background-color: rgba(0, 0, 0, .8);
 }
 
+.form-container .container {
+  justify-content: center;
+}
+
+.form-container .form {
+  flex: 0 0 100%;
+}
+
+.form-container .message {
+  text-align: center;
+  flex: 0 0 100%;
+}
+
 .contact-details {
   flex: 0 0 100%;
 }
