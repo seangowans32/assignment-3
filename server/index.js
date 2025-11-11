@@ -7,6 +7,7 @@ import 'dotenv/config';
 import projectRoutes from './routes/project.js';
 import userRoutes from './routes/user.js';
 import authRoutes from './routes/auth.js';
+import contactRoutes from "./routes/contact.js";
 
 
 mongoose
@@ -22,6 +23,7 @@ app.use(express.json());
 app.use(morgan('dev'));
 
 
+app.use("/api/contact", contactRoutes);
 app.use('/api/projects', projectRoutes);
 app.use('/api/users', userRoutes);
 app.use('/auth', authRoutes);

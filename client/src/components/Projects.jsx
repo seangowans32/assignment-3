@@ -427,9 +427,11 @@ export default function Projects() {
 
             {projects.map((p) => (
               <li key={p._id}>
-                <a href={p.link} target="_blank" rel="noopener noreferrer">
+                {/* <a href={p.link} target="_blank" rel="noopener noreferrer">
                   {p.title}
-                </a>
+                </a> */}
+
+                <a href={p.link.startsWith("http") ? p.link : `https://${p.link}`} target="_blank" rel="noopener">{p.title}</a>
               </li>
             ))}
 
