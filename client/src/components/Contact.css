@@ -48,6 +48,12 @@
   flex: 0 0 100%;
 }
 
+.form-group.radio-group input {
+  /* flex: 0 0 100%; */
+  width: fit-content;
+  cursor: pointer;
+}
+
 .form .button {
   position: relative;
   left: 50%;

@@ -10,6 +10,10 @@ import authRoutes from './routes/auth.js';
 import contactRoutes from "./routes/contact.js";
 
 
+import educationRoutes from './routes/education.js';
+
+
+
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => console.log('✅ Connected to MongoDB'))
@@ -22,7 +26,7 @@ app.use(cors());
 app.use(express.json());
 app.use(morgan('dev'));
 
-
+app.use('/api/education', educationRoutes);
 app.use("/api/contact", contactRoutes);
 app.use('/api/projects', projectRoutes);
 app.use('/api/users', userRoutes);
