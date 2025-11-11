@@ -8,13 +8,10 @@ import {
     loginUser
 } from '../controllers/user.js'
 
-// import authMiddleware from '../middlewares/auth.js';
 import { protect, adminOnly } from '../middlewares/auth.js';
 
-// Router /users
 const router = express.Router();
 
-// HTTP Verbs for RESTful APIs GET, POST, PUT, DELETE
 router.get('/', protect, adminOnly, getAllUsers);
 router.get('/:id', protect, adminOnly, getUserById);
 router.post('/', createUser);

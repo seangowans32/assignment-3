@@ -3,7 +3,6 @@ import 'aos/dist/aos.css';
 import { useEffect, useState } from 'react';
 import './Projects.css';
 import './Contact.css';
-
 import bannerImg from '../assets/img-3.jpg';
 import samadhiImage from '../assets/samadhi.png';
 import keystoneImage from '../assets/keystone.png';
@@ -12,59 +11,12 @@ import wsxVideo from '../assets/wsx-video.mp4';
 import zero9Video from '../assets/zero9.mp4';
 import miboImage from '../assets/mibo.png';
 import Footer from './Footer.jsx';
-
-
-
-
-
-
-// import AOS from 'aos';
-// import 'aos/dist/aos.css';
-// import { useEffect, useState } from 'react';
-// import './Projects.css';
-// import bannerImg from '../assets/img-3.jpg';
-// import Footer from './Footer.jsx';
-
 import { useAuth } from '../auth/AuthContext';
 
-
-
-
-
 export default function Projects() {
-  // const [projects, setProjects] = useState([]);
-  // const [message, setMessage] = useState("");
-
-  // // AOS Animations
-  // useEffect(() => {
-  //   AOS.init();
-
-  //   fetchProjects();
-
-  // }, []);
-
-  // const fetchProjects = async () => {
-  //   try {
-  //     const res = await fetch("http://localhost:4000/api/projects");
-  //     const data = await res.json();
-  //     setProjects(data);
-  //   } catch (err) {
-  //     setMessage("Error loading projects");
-  //   }
-  // };
-
-
-
-
-
-  const { user, token } = useAuth(); // ✅ from AuthContext
+  const { user, token } = useAuth();
   const [projects, setProjects] = useState([]);
-
-  const [form, setForm] = useState({
-    title: "",
-    link: ""
-  });
-
+  const [form, setForm] = useState({title: "", link: ""});
 
   const [message, setMessage] = useState("");
 
@@ -78,8 +30,9 @@ export default function Projects() {
       const res = await fetch("http://localhost:4000/api/projects");
       const data = await res.json();
       setProjects(data);
+
     } catch (err) {
-      setMessage("⚠️ Error loading projects");
+      setMessage("Error loading projects");
     }
   };
 
@@ -96,22 +49,21 @@ export default function Projects() {
         },
         body: JSON.stringify({ title: form.title, link: form.link }),
       });
-  
+
       const data = await res.json();
-      if (res.ok) {
-        setMessage("✅ Project added successfully!");
+      if(res.ok) {
+        setMessage("Project added successfully!");
         setForm({ title: "", link: "" });
         fetchProjects();
+
       } else {
-        setMessage(`❌ ${data.message}`);
+        setMessage(`${data.message}`);
       }
+
     } catch (err) {
-      setMessage("⚠️ Server error");
+      setMessage("Server error");
     }
   };
-  
-
-
 
   return(
     <>
@@ -155,56 +107,6 @@ export default function Projects() {
           </div>
         </section>
       )}
-
-
-
-
-
-
-      {/* <section className="featured-projects">
-        <div className="container">
-          <h2 data-aos="zoom-in" data-aos-duration="1000">Featured Projects</h2>
-          <div className="flex gap-20">
-            {projects.length > 0 ? (
-              projects.map((p, i) => (
-                <div
-                  key={p._id || i}
-                  className="project-box"
-                  data-aos="zoom-in"
-                  data-aos-duration="1000"
-                  data-aos-delay={i * 100}
-                >
-                  <div className="img-container">
-                    {p.imageUrl ? (
-                      <img src={p.imageUrl} alt={p.title} />
-                    ) : (
-                      <img src={bannerImg} alt={p.title} />
-                    )}
-                  </div>
-                  <ul className="flex gap-10">
-                    <li>React</li>
-                    <li>Node</li>
-                    <li>Express</li>
-                    <li>MongoDB</li>
-                  </ul>
-                  <p>{p.description}</p>
-                  {p.link && (
-                    <a className="button" href={p.link} target="_blank" rel="noopener">
-                      Visit Site
-                    </a>
-                  )}
-                </div>
-              ))
-            ) : (
-              <p>No projects yet.</p>
-            )}
-          </div>
-        </div>
-      </section> */}
-
-
-
-
 
       <section className="featured-projects">
         <div className="container">
@@ -412,30 +314,11 @@ export default function Projects() {
 
             <li><a href="https://thebaratie.infinityfreeapp.com/" target="_blank" rel="noopener">The Baratie</a></li>
 
-            {/* {projects.map((p) => (
-              <li key={p._id}>
-                {p.link ? (
-                  <a href={p.link} target="_blank" rel="noopener noreferrer">
-                    {p.title || "Untitled Project"}
-                  </a>
-                ) : (
-                  <span>{p.title || "Untitled Project"}</span>
-                )}
-              </li>
-            ))} */}
-
-
             {projects.map((p) => (
               <li key={p._id}>
-                {/* <a href={p.link} target="_blank" rel="noopener noreferrer">
-                  {p.title}
-                </a> */}
-
                 <a href={p.link.startsWith("http") ? p.link : `https://${p.link}`} target="_blank" rel="noopener">{p.title}</a>
               </li>
             ))}
-
-
           </ul>
         </div>
       </section>

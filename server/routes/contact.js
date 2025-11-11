@@ -4,7 +4,7 @@ import { protect, adminOnly } from "../middlewares/auth.js";
 
 const router = express.Router();
 
-router.post("/", createContact); // public form
-router.get("/", protect, adminOnly, getContacts); // admin view
+router.post("/", createContact);
+router.get("/", protect, adminOnly, getContacts);
 
 export default router;

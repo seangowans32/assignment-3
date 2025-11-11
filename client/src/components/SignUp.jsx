@@ -33,7 +33,7 @@ export default function SignUp() {
       });
 
       const data = await res.json();
-      if (res.ok) {
+      if(res.ok) {
         setMessage("Bewm, Signup successful! You can now sign in.");
         setFormData({ name: "", email: "", password: "" });
       } else {
