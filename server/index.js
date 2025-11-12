@@ -81,11 +81,11 @@ const clientDistPath = path.join(__dirname, '../client/dist');
 
 app.use(express.static(clientDistPath));
 
-app.get('*', (_, res) => {
+app.use((req, res, next) => {
   res.sendFile(path.join(clientDistPath, 'index.html'));
 });
 
 const port = process.env.PORT || 4000;
 app.listen(port, () => {
-  console.log(`🚀 Server running at http://localhost:${port}/`);
+  console.log(`Server running at http://localhost:${port}/`);
 });
