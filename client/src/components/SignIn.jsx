@@ -5,6 +5,7 @@ import { useAuth } from '../auth/AuthContext';
 import './Contact.css';
 import bannerImg from '../assets/img-11.jpg';
 import Footer from './Footer.jsx';
+import API_BASE_URL from "../config.js";
 
 export default function SignIn() {
   // AOS Animations
@@ -25,7 +26,7 @@ export default function SignIn() {
     e.preventDefault();
 
     try {
-      const res = await fetch("http://localhost:4000/auth/signin", {
+      const res = await fetch(`${API_BASE_URL}/auth/signin`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),

@@ -12,6 +12,7 @@ import zero9Video from '../assets/zero9.mp4';
 import miboImage from '../assets/mibo.png';
 import Footer from './Footer.jsx';
 import { useAuth } from '../auth/AuthContext';
+import API_BASE_URL from "../config.js";
 
 export default function Projects() {
   const { user, token } = useAuth();
@@ -27,7 +28,7 @@ export default function Projects() {
 
   const fetchProjects = async () => {
     try {
-      const res = await fetch("http://localhost:4000/api/projects");
+      const res = await fetch(`${API_BASE_URL}/api/projects`);
       const data = await res.json();
       setProjects(data);
 
@@ -41,7 +42,7 @@ export default function Projects() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch("http://localhost:4000/api/projects", {
+      const res = await fetch(`${API_BASE_URL}/api/projects`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

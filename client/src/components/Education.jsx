@@ -6,6 +6,7 @@ import "./Contact.css";
 import bannerImg from "../assets/img-8.jpg";
 import Footer from "./Footer.jsx";
 import { useAuth } from "../auth/AuthContext";
+import API_BASE_URL from "../config.js";
 
 export default function Education() {
   const { user, token } = useAuth();
@@ -21,7 +22,7 @@ export default function Education() {
 
   const fetchEducation = async () => {
     try {
-      const res = await fetch("http://localhost:4000/api/education");
+      const res = await fetch(`${API_BASE_URL}/api/education`);
       const data = await res.json();
 
       setEducation(data.filter((i) => i.type === "education"));
@@ -39,7 +40,7 @@ export default function Education() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch("http://localhost:4000/api/education", {
+      const res = await fetch(`${API_BASE_URL}/api/education`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

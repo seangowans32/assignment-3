@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import './Contact.css';
 import bannerImg from '../assets/img-11.jpg';
 import Footer from './Footer.jsx';
+import API_BASE_URL from "../config.js";
 
 export default function SignUp() {
   // AOS Animations
@@ -26,7 +27,7 @@ export default function SignUp() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch("http://localhost:4000/auth/signup", {
+      const res = await fetch(`${API_BASE_URL}/auth/signup`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
