@@ -24,7 +24,7 @@ export default function Home() {
         <img src={bannerImg} alt="banner" />
         <div className="container">
           <h1 data-aos="zoom-in" data-aos-duration="1000">Sean Gowans</h1>
-          <h2 data-aos="zoom-in" data-aos-duration="2000">Front-End Web Developer Based In Germany</h2>
+          <h2 data-aos="zoom-in" data-aos-duration="2000">Full Stack Web Developer Based In Germany</h2>
         </div>
       </section>
 
