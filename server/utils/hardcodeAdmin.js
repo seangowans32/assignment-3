@@ -8,7 +8,7 @@ const run = async () => {
     await mongoose.connect(process.env.MONGO_URI);
     console.log("Connected to MongoDB");
 
-    const email = 'seangowans32@gmail.com';
+    const email = 'sean@gmail.com';
     const password = '123456789';
     const name = 'Admin';
 
