@@ -36,10 +36,16 @@
   line-height: 1.4;
   background-color: var(--blue);
   border-radius: var(--border-radius-5);
+  border: 1px solid var(--blue);
   display: flex;
   align-items: center;
   justify-content: center;
   margin-right: auto;
+  letter-spacing: 0;
+}
+
+.header .logo:hover {
+  background: transparent;
 }
 
 .header a {

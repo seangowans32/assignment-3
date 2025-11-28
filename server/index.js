@@ -37,6 +37,12 @@ const clientDistPath = path.join(__dirname, '../client/dist');
 
 app.use(express.static(clientDistPath));
 
+// Explicitly handle robots.txt with correct content-type
+app.get('/robots.txt', (req, res) => {
+  res.type('text/plain');
+  res.sendFile(path.join(clientDistPath, 'robots.txt'));
+});
+
 app.use((req, res, next) => {
   res.sendFile(path.join(clientDistPath, 'index.html'));
 });
